@@ -1,0 +1,6 @@
+.vscode/
+src/bin/
+src/obj/
+.git/
+.github/
+.vs/
