@@ -1,6 +1,6 @@
 .vscode/
 src/Bookify.Domain/bin/
-src/Bookify.Domain/obj
+src/Bookify.Domain/obj/
 .git/
 .github/
 .vs/
