@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using Bookify.Domain.Abstractions;
 using Bookify.Domain.Users.Events;
 
-namespace Bookify.Domain.User;
+namespace Bookify.Domain.Users;
 
 public sealed class User : Entity
 {
