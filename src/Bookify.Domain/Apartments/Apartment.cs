@@ -1,9 +1,10 @@
 using  Bookify.Domain.Abstractions;
+using Bookify.Domain.Shared;
 namespace Bookify.Domain.Apartments;
 
-public sealed class Apartments : Entity
+public sealed class Apartment : Entity
 {
-    public Apartments(
+    public Apartment(
         Guid id,
         Name name,
         Description description,
