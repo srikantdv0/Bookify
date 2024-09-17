@@ -1,11 +1,19 @@
 using Bookify.Application.Abstractions.Data;
 using Bookify.Application.Abstractions.Messaging;
 using Bookify.Domain.Abstractions;
+using Bookify.Domain.Bookings;
+using Dapper;
 
 namespace Bookify.Application.Apartments.SearchApartments;
 internal sealed class SearchApartmentsQueryHandler 
             : IQueryHandler<SearchApartmentsQuery,IReadOnlyList<ApartmentResponse>>
 {
+    private static readonly int[] ActiveBookingStatuses =
+    {
+        (int)BookingStatus.Reserved,
+        (int)BookingStatus.Confirmed,
+        (int)BookingStatus.Completed
+    };
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
     public SearchApartmentsQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
     {
@@ -31,6 +39,34 @@ internal sealed class SearchApartmentsQueryHandler
              a.address_zip_code AS ZipCode,
              a.address_city AS City,
              a.address_street AS Street
+             From apartments As a
+             WHERE NOT EXISTS
+             (
+                SELECT 1
+                FROM bookings AS b
+                WHERE
+                    b.apartment_id = a.id AND
+                    b.duration_start <= @EndDate AND
+                    b.duration_end >= @StartDate AND
+                    b.status = ANY(@ActiveBookingStatuses)
+             )
       """;
+
+      var apartments = await connection
+                        .QueryAsync<ApartmentResponse,AddressResponse, ApartmentResponse>(
+                            sql,
+                            (apartment, address) =>
+                            {
+                                apartment.Address = address;
+                                return apartment;
+                            },
+                            new
+                            {
+                                request.StartDate,
+                                request.EndDate,
+                                ActiveBookingStatuses
+                            },
+                            splitOn: "Country");
+            return apartments.ToList();
     }
 }
