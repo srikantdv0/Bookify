@@ -3,6 +3,8 @@ src/Bookify.Domain/bin/
 src/Bookify.Domain/obj/
 src/Bookify.Application/bin/
 src/Bookify.Application/obj/
+src/Bookify.Infrastructure/obj/
+src/Bookify.Infrastructure/bin/
 .git/
 .github/
 .vs/
