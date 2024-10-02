@@ -5,6 +5,8 @@ src/Bookify.Application/bin/
 src/Bookify.Application/obj/
 src/Bookify.Infrastructure/obj/
 src/Bookify.Infrastructure/bin/
+src/Bookify.Api/obj/
+src/Bookify.Api/bin/
 .git/
 .github/
 .vs/
